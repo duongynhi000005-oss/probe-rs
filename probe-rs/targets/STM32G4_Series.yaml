@@ -4831,7 +4831,7 @@ flash_algorithms:
     program_page_timeout: 400
     erase_sector_timeout: 400
     sectors:
-    - size: 0x1000
+    - size: 0x800
       address: 0x0
 - name: stm32g47x-8x_512
   description: STM32G47x-8x 512 KB Flash
