@@ -249,6 +249,13 @@ impl RunLoop {
                         .check_core(&mut core, &mut duration, predicate)
                         .and_then(Option::transpose)
                     {
+                        Ok(Some(ReturnReason::LockedUp)) => {
+                            tracing::warn!(
+                                "Observed secondary core {idx} is locked up; ignoring to keep primary core running"
+                            );
+                            *wakeup = Instant::now() + WATCH_POLL_INTERVAL;
+                            next_poll = next_poll.min(WATCH_POLL_INTERVAL);
+                        }
                         Ok(Some(reason)) => return Ok(reason),
                         Ok(None) => {
                             *wakeup = Instant::now() + duration;
